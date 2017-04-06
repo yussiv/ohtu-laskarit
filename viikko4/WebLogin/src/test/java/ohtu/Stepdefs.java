@@ -1,9 +1,11 @@
 package ohtu;
 
 import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.github.bonigarcia.wdm.ChromeDriverManager;
 import static org.junit.Assert.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,8 +13,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class Stepdefs {
-    WebDriver driver = new ChromeDriver();
+    WebDriver driver;
     String baseUrl = "http://localhost:4567";
+    
+    @Before
+    public void setUp() {
+        ChromeDriverManager.getInstance().setup();
+        driver = new ChromeDriver();
+    }
     
     @Given("^login is selected$")
     public void login_selected() throws Throwable {
