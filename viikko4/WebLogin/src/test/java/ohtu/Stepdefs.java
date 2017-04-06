@@ -59,6 +59,11 @@ public class Stepdefs {
         pageHasContent("Ohtu Application main page");
     }
     
+    @Then("^the user is logged in and the main page is shown$")
+    public void user_is_logged_in_and_main_page_shown() throws Throwable {
+        pageHasContent("Ohtu Application main page");
+    }
+    
     @Then("^user is not logged in and error message is given$")
     public void user_is_not_logged_in_and_error_message_is_given() throws Throwable {
         pageHasContent("invalid username or password");
@@ -125,6 +130,27 @@ public class Stepdefs {
     @When("^a valid username \"([^\"]*)\" and a valid password \"([^\"]*)\" and a different confirmation \"([^\"]*)\" are given$")
     public void a_valid_username_and_a_valid_password_and_a_different_confirmation_are_given(String username, String password, String confirmation) throws Throwable {
         registerWith(username, password, confirmation);
+    }
+    @When("^the correct username \"([^\"]*)\" with correct password \"([^\"]*)\" are given$")
+    public void correct_username_and_correct_password_given(String username, String password) throws Throwable {
+        logInWith(username, password);
+    }
+    
+    @When("^the same username \"([^\"]*)\" with same password \"([^\"]*)\" are given$")
+    public void same_username_and_same_password_given(String username, String password) throws Throwable {
+        logInWith(username, password);
+    }
+    
+    @Given("user with username \"([^\"]*)\" with password \"([^\"]*)\" is succesfully created")
+    public void user_with_username_and_password_succesfully_created(String username, String password) throws Throwable {
+        driver.get(baseUrl + "/user");
+        registerWith(username, password, password);
+    }
+    
+    @Given("user with username \"([^\"]*)\" and password \"([^\"]*)\" is unsuccesfully created")
+    public void user_with_username_and_password_unsuccesfully_created(String username, String password) throws Throwable {
+        driver.get(baseUrl + "/user");
+        registerWith(username, password, password);
     }
 
     
