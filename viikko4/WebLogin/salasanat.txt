@@ -2,3 +2,4 @@ pekka;akkep
 jukka;akkuj
 pete;pete
 esko;seko
+pedro;adro

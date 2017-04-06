@@ -81,11 +81,58 @@ public class Stepdefs {
     }
 
     
+    @Given("^new user is selected$")
+    public void new_user_is_selected() throws Throwable {
+        driver.get(baseUrl);
+        driver.findElement(By.linkText("register new user")).click();    
+    }
+
+    @When("^a valid unused username \"([^\"]*)\" and valid password \"([^\"]*)\" are given$")
+    public void a_valid_unused_username_and_valid_password_are_given(String username, String password) throws Throwable {
+        registerWith(username, password, password);
+    }
+
+    @Then("^the user is added and a welcome message is shown$")
+    public void the_user_is_added_and_a_welcome_message_is_shown() throws Throwable {
+        pageHasContent("Welcome to Ohtu Application");
+    }
+
+    @When("^a too short username \"([^\"]*)\" and valid password \"([^\"]*)\" are given$")
+    public void a_too_short_username_and_valid_password_are_given(String username, String password) throws Throwable {
+        registerWith(username, password, password);
+    }
+
+    @Then("^user is not created and error \"([^\"]*)\" is reported$")
+    public void user_is_not_created_and_error_is_reported(String message) throws Throwable {
+        pageHasContent(message);
+    }
+
+    @When("^a valid unused username \"([^\"]*)\" and a too short password \"([^\"]*)\" are given$")
+    public void a_valid_unused_username_and_a_too_short_password_are_given(String username, String password) throws Throwable {
+        registerWith(username, password, password);
+    }
+
+    @When("^a valid unused username \"([^\"]*)\" and a long enough password without a special character or number \"([^\"]*)\" are given$")
+    public void a_valid_unused_username_and_a_long_enough_password_without_a_special_character_or_number_are_given(String username, String password) throws Throwable {
+        registerWith(username, password, password);
+    }
+
+    @When("^a used correct username \"([^\"]*)\" and valid password \"([^\"]*)\" are given$")
+    public void a_used_correct_username_and_valid_password_are_given(String username, String password) throws Throwable {
+        registerWith(username, password, password);
+    }
+
+    @When("^a valid username \"([^\"]*)\" and a valid password \"([^\"]*)\" and a different confirmation \"([^\"]*)\" are given$")
+    public void a_valid_username_and_a_valid_password_and_a_different_confirmation_are_given(String username, String password, String confirmation) throws Throwable {
+        registerWith(username, password, confirmation);
+    }
+
+    
     @After
     public void tearDown(){
         driver.quit();
     }
-        
+    
     /* helper methods */
  
     private void pageHasContent(String content) {
@@ -100,5 +147,13 @@ public class Stepdefs {
         element.sendKeys(password);
         element = driver.findElement(By.name("login"));
         element.submit();  
+    }
+    
+    private void registerWith(String username, String password, String confirmation) {
+        pageHasContent("Create username and give password");
+        driver.findElement(By.name("username")).sendKeys(username);
+        driver.findElement(By.name("password")).sendKeys(password);
+        driver.findElement(By.name("passwordConfirmation")).sendKeys(confirmation);
+        driver.findElement(By.name("signup")).click();  
     } 
 }
