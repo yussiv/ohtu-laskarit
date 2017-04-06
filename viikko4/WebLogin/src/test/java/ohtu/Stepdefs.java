@@ -63,7 +63,23 @@ public class Stepdefs {
     public void user_is_not_logged_in_and_error_message_is_given() throws Throwable {
         pageHasContent("invalid username or password");
         pageHasContent("Give your credentials to login");
-    }     
+    }
+    
+    @When("^incorrect username \"([^\"]*)\" and incorrect password \"([^\"]*)\" are given$")
+    public void incorrect_username_and_incorrect_password_are_given(String username, String password) throws Throwable {
+        logInWith(username, password);
+    }
+
+    @Then("^user in not logged in and an error message is shown$")
+    public void user_in_not_logged_in_and_an_error_message_is_shown() throws Throwable {
+        pageHasContent("invalid username or password");
+    }
+
+    @When("^incorrect username \"([^\"]*)\" and correct password \"([^\"]*)\" are given$")
+    public void incorrect_username_and_correct_password_are_given(String username, String password) throws Throwable {
+        logInWith(username, password);
+    }
+
     
     @After
     public void tearDown(){
