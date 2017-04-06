@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+apply plugin: 'application'
+
+apply plugin: 'checkstyle'
+
+mainClassName = 'Main'
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'Main'
+	}
+}
+
+run {
+	standardInput = System.in
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
