@@ -5,11 +5,15 @@ import statistics.matcher.*;
 public class Main {
     public static void main(String[] args) {
         Statistics stats = new Statistics(new PlayerReaderImpl("http://nhlstats-2013-14.herokuapp.com/players.txt"));
-          
-        Matcher m = new And( new HasAtLeast(10, "goals"),
-                             new HasAtLeast(10, "assists"),
-                             new PlaysIn("PHI")
-        );
+        MatchBuilder match = new MatchBuilder();
+        
+//        Matcher m = new And( new HasAtLeast(10, "goals"),
+//                             new HasAtLeast(10, "assists"),
+//                             new PlaysIn("PHI")
+//        );
+        Matcher m = match.hasAtLeast(10, "goals")
+                .hasAtLeast(10, "assists")
+                .playsIn("PHI").build();
         
         for (Player player : stats.matches(m)) {
             System.out.println( player );
@@ -17,9 +21,13 @@ public class Main {
         
         System.out.println("\n----\n");
         
-        m = new Or( new HasAtLeast(100, "points"),
-                    new And(new PlaysIn("BOS"), new HasAtLeast(24, "goals"))
-        );
+//        m = new Or( new HasAtLeast(100, "points"),
+//                    new And(new PlaysIn("BOS"), new HasAtLeast(24, "goals"))
+//        );
+        m = match.oneOf(
+                match.hasAtLeast(100, "points").build(), 
+                match.playsIn("BOS").hasAtLeast(24, "goals").build()
+        ).build();
         
         
         for (Player player : stats.matches(m)) {
@@ -28,7 +36,7 @@ public class Main {
         
         System.out.println("\n----\n");
         
-        m = new PlaysIn("WPG");
+        m = match.playsIn("WPG").build();
         
         for (Player player : stats.matches(m)) {
             System.out.println( player );
@@ -36,13 +44,13 @@ public class Main {
         
         System.out.println("-------");
         
-        m = new And(new PlaysIn("WPG"), new HasAtLeast(30, "assists"));
+        m = match.playsIn("WPG").hasAtLeast(30, "assists").build();
         
         for (Player player : stats.matches(m)) {
             System.out.println( player );
         }
         System.out.println("**********");
-        m = new And(new PlaysIn("WPG"), new HasFewerThan(30, "assists"));
+        m = match.playsIn("WPG").hasFewerThan(30, "assists").build();
         
         for (Player player : stats.matches(m)) {
             System.out.println( player );
@@ -50,7 +58,7 @@ public class Main {
         
         System.out.println("\n----\n");
         
-        m = new And(new PlaysIn("MTL"), new Not(new HasFewerThan(30, "assists")));
+        m = match.not(match.hasFewerThan(30, "assists").build()).playsIn("MTL").build();
         
         for (Player player : stats.matches(m)) {
             System.out.println( player );
@@ -58,7 +66,7 @@ public class Main {
         
         System.out.println("********");
         
-        m = new And(new PlaysIn("MTL"), new HasAtLeast(30, "assists"));
+        m = match.playsIn("MTL").hasAtLeast(30, "assists").build();
         
         for (Player player : stats.matches(m)) {
             System.out.println( player );
@@ -66,10 +74,10 @@ public class Main {
         
         System.out.println("********");
         
-        m = new Or(
-                new And(new PlaysIn("MTL"), new HasAtLeast(30, "assists"), new HasFewerThan(27, "goals")),
-                new And(new PlaysIn("MTL"), new PlaysIn("NYI"), new PlaysIn("MTL"))
-        );
+        m = match.oneOf(
+                match.playsIn("MTL").hasAtLeast(30, "assists").hasFewerThan(27, "goals").build(),
+                match.playsIn("MTL").playsIn("NYI").playsIn("MTL").build()
+        ).build();
         
         for (Player player : stats.matches(m)) {
             System.out.println( player );

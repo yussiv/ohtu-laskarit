@@ -5,14 +5,16 @@ import statistics.Player;
 
 public class PlaysIn implements Matcher {
     private String team;
+    private Matcher matcher;
 
-    public PlaysIn(String team) {
+    public PlaysIn(Matcher matcher, String team) {
         this.team = team;
+        this.matcher = matcher;
     }        
     
     @Override
     public boolean matches(Player p) {
-        return p.getTeam().contains(team);
+        return matcher.matches(p) && p.getTeam().contains(team);
     }
     
 }
