@@ -2,9 +2,13 @@ package ohtu.kivipaperisakset;
 
 import java.util.Scanner;
 
-public class KPSPelaajaVsPelaaja {
+public class KPSPelaajaVsPelaaja extends KPS {
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
+
+    public KPSPelaajaVsPelaaja(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     public void pelaa() {
         Tuomari tuomari = new Tuomari();
@@ -14,14 +18,14 @@ public class KPSPelaajaVsPelaaja {
         System.out.print("Toisen pelaajan siirto: ");
         String tokanSiirto = scanner.nextLine();
 
-        while (onkoOkSiirto(ekanSiirto) && onkoOkSiirto(tokanSiirto)) {
+        while (siirtoOnOK(ekanSiirto) && siirtoOnOK(tokanSiirto)) {
             tuomari.kirjaaSiirto(ekanSiirto, tokanSiirto);
             System.out.println(tuomari);
             System.out.println();
 
             System.out.print("Ensimmäisen pelaajan siirto: ");
             ekanSiirto = scanner.nextLine();
-            
+
             System.out.print("Toisen pelaajan siirto: ");
             tokanSiirto = scanner.nextLine();
         }
@@ -29,9 +33,5 @@ public class KPSPelaajaVsPelaaja {
         System.out.println();
         System.out.println("Kiitos!");
         System.out.println(tuomari);
-    }
-
-    private static boolean onkoOkSiirto(String siirto) {
-        return "k".equals(siirto) || "p".equals(siirto) || "s".equals(siirto);
     }
 }

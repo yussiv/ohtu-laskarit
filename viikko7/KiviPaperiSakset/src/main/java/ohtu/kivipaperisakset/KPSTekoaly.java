@@ -2,42 +2,38 @@ package ohtu.kivipaperisakset;
 
 import java.util.Scanner;
 
-public class KPSTekoaly {
+public class KPSTekoaly extends KPS {
+    
+    protected Scanner scanner;
+    private final Tekoaly tekoaly;
+    private final Tuomari tuomari;
 
-    private static final Scanner scanner = new Scanner(System.in);
-
-    public void pelaa() {
-        Tuomari tuomari = new Tuomari();
-        Tekoaly tekoaly = new Tekoaly();
-
-        System.out.print("Ensimmäisen pelaajan siirto: ");
-        String ekanSiirto = scanner.nextLine();
-        String tokanSiirto;
-
-        tokanSiirto = tekoaly.annaSiirto();
-        System.out.println("Tietokone valitsi: " + tokanSiirto);
-
-
-        while (onkoOkSiirto(ekanSiirto) && onkoOkSiirto(tokanSiirto)) {
-            tuomari.kirjaaSiirto(ekanSiirto, tokanSiirto);
-            System.out.println(tuomari);
-            System.out.println();
-
-            System.out.print("Ensimmäisen pelaajan siirto: ");
-            ekanSiirto = scanner.nextLine();
-
-            tokanSiirto = tekoaly.annaSiirto();
-            System.out.println("Tietokone valitsi: " + tokanSiirto);
-            tekoaly.asetaSiirto(ekanSiirto);
-
-        }
-
-        System.out.println();
-        System.out.println("Kiitos!");
-        System.out.println(tuomari);
+    public KPSTekoaly(Scanner scanner, Tekoaly tekoaly) {
+        this.scanner = scanner;
+        this.tekoaly = tekoaly;
+        this.tuomari = new Tuomari();
     }
 
-    private static boolean onkoOkSiirto(String siirto) {
-        return "k".equals(siirto) || "p".equals(siirto) || "s".equals(siirto);
+    public void pelaa() {
+        String ekanSiirto, tokanSiirto;
+        
+        while (true) {
+            System.out.print("Ensimmäisen pelaajan siirto: ");
+            ekanSiirto = scanner.nextLine();
+            
+            tokanSiirto = tekoaly.annaSiirto();
+            System.out.println("Tietokone valitsi: " + tokanSiirto);
+            
+            if(!siirtoOnOK(ekanSiirto) || !siirtoOnOK(tokanSiirto))
+                break;
+            
+            tekoaly.asetaSiirto(ekanSiirto);
+            
+            tuomari.kirjaaSiirto(ekanSiirto, tokanSiirto);
+            System.out.println(tuomari.tulostaPelitilanne() + "\n");
+        }
+        
+        System.out.println("\nKiitos!");
+        System.out.println(tuomari.tulostaPelitilanne());
     }
 }
