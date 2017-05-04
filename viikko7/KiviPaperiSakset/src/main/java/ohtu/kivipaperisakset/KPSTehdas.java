@@ -5,13 +5,14 @@ import java.util.Scanner;
 public class KPSTehdas {
 
     public static KPS luoPeli(String valinta, Scanner lukija) {
+        Ihminen ekaPelaaja = new Ihminen(lukija);
         switch (valinta) {
             case "a":
-                return new KPSPelaajaVsPelaaja(lukija);
+                return new KPS(ekaPelaaja, new Ihminen(lukija));
             case "b":
-                return new KPSTekoaly(lukija, new TekoalyPerus());
+                return new KPS(ekaPelaaja, new TekoalyPerus());
             case "c":
-                return new KPSTekoaly(lukija, new TekoalyParannettu(20));
+                return new KPS(ekaPelaaja, new TekoalyParannettu(20));
             default:
                 return null;
         }

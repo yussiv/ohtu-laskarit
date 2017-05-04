@@ -1,7 +1,7 @@
 
 package ohtu.kivipaperisakset;
 
-public interface Tekoaly {
+public interface Pelaaja {
 
     String annaSiirto();
 

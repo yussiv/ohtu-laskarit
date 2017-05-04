@@ -1,6 +1,6 @@
 package ohtu.kivipaperisakset;
 
-public class TekoalyPerus implements Tekoaly {
+public class TekoalyPerus implements Pelaaja {
 
     private int siirto;
 

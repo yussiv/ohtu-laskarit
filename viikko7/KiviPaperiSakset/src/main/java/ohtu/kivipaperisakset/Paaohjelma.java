@@ -10,7 +10,7 @@ public class Paaohjelma {
         while (true) {
             tulostaOhje();
 
-            String vastaus = scanner.nextLine().trim();
+            String vastaus = scanner.nextLine();
             KPS peli = KPSTehdas.luoPeli(vastaus, scanner);
             if (peli == null) {
                 break;
